@@ -9,12 +9,9 @@ namespace com.bricsys.tune.UI.Nav
     [RequireComponent(typeof(ListElement))]
     public class PerpendicularListNavigationConstraint : NavigationConstraint
     {
-        private enum LimitedNavigation { None = 0, Horizontal = 1, Vertical = 2, All = 3 };
+        protected ListElement m_myListElement;
 
-        [SerializeField] private LimitedNavigation m_navigationOverride;
-        private ListElement m_myListElement;
-
-        protected override void Setup()
+        internal override void Setup()
         {
             base.Setup();
             if (m_myListElement == null)
@@ -29,22 +26,46 @@ namespace com.bricsys.tune.UI.Nav
             switch (m_navigationOverride)
             {
                 case LimitedNavigation.Horizontal:
-                    finalNav.selectOnLeft = m_mySelectable.FindSelectableOnLeftPerpendicular(FilterOnListElements);
-                    finalNav.selectOnRight = m_mySelectable.FindSelectableOnRightPerpendicular(FilterOnListElements);
+                    if (m_sourceNavigation.mode == Navigation.Mode.Explicit && m_sourceNavigation.selectOnLeft == null)
+                        finalNav.selectOnLeft = m_mySelectable.FindSelectableOnLeftPerpendicular(FilterOnListElements);
+                    else
+                        finalNav.selectOnLeft = m_mySelectable.FindSelectableOnLeft();
+                    if (m_sourceNavigation.mode == Navigation.Mode.Explicit && m_sourceNavigation.selectOnRight == null)
+                        finalNav.selectOnRight = m_mySelectable.FindSelectableOnRightPerpendicular(FilterOnListElements);
+                    else
+                        finalNav.selectOnRight = m_mySelectable.FindSelectableOnRight();
                     finalNav.selectOnUp = m_mySelectable.FindSelectableOnUp();
                     finalNav.selectOnDown = m_mySelectable.FindSelectableOnDown();
                     break;
                 case LimitedNavigation.Vertical:
                     finalNav.selectOnLeft = m_mySelectable.FindSelectableOnLeft();
                     finalNav.selectOnRight = m_mySelectable.FindSelectableOnRight();
-                    finalNav.selectOnUp = m_mySelectable.FindSelectableOnUpPerpendicular(FilterOnListElements);
-                    finalNav.selectOnDown = m_mySelectable.FindSelectableOnDownPerpendicular(FilterOnListElements);
+                    if (m_sourceNavigation.mode == Navigation.Mode.Explicit && m_sourceNavigation.selectOnUp == null) //Only apply the override if the base navigation is explicit and null
+                        finalNav.selectOnUp = m_mySelectable.FindSelectableOnUpPerpendicular(FilterOnListElements);
+                    else
+                        finalNav.selectOnUp = m_mySelectable.FindSelectableOnUp();
+                    if (m_sourceNavigation.mode == Navigation.Mode.Explicit && m_sourceNavigation.selectOnDown == null)
+                        finalNav.selectOnDown = m_mySelectable.FindSelectableOnDownPerpendicular(FilterOnListElements);
+                    else
+                        finalNav.selectOnDown = m_mySelectable.FindSelectableOnDown();
                     break;
                 case LimitedNavigation.All:
-                    finalNav.selectOnLeft = m_mySelectable.FindSelectableOnLeftPerpendicular(FilterOnListElements);
-                    finalNav.selectOnRight = m_mySelectable.FindSelectableOnRightPerpendicular(FilterOnListElements);
-                    finalNav.selectOnUp = m_mySelectable.FindSelectableOnUpPerpendicular(FilterOnListElements);
-                    finalNav.selectOnDown = m_mySelectable.FindSelectableOnDownPerpendicular(FilterOnListElements);
+                    if (m_sourceNavigation.mode == Navigation.Mode.Explicit && m_sourceNavigation.selectOnLeft == null)
+                        finalNav.selectOnLeft = m_mySelectable.FindSelectableOnLeftPerpendicular(FilterOnListElements);
+                    else
+                        finalNav.selectOnLeft = m_mySelectable.FindSelectableOnLeft();
+                    if (m_sourceNavigation.mode == Navigation.Mode.Explicit && m_sourceNavigation.selectOnRight == null)
+                        finalNav.selectOnRight = m_mySelectable.FindSelectableOnRightPerpendicular(FilterOnListElements);
+                    else
+                        finalNav.selectOnRight = m_mySelectable.FindSelectableOnRight();
+                    if (m_sourceNavigation.mode == Navigation.Mode.Explicit && m_sourceNavigation.selectOnUp == null) //Only apply the override if the base navigation is explicit and null
+                        finalNav.selectOnUp = m_mySelectable.FindSelectableOnUpPerpendicular(FilterOnListElements);
+                    else
+                        finalNav.selectOnUp = m_mySelectable.FindSelectableOnUp();
+                    if (m_sourceNavigation.mode == Navigation.Mode.Explicit && m_sourceNavigation.selectOnDown == null)
+                        finalNav.selectOnDown = m_mySelectable.FindSelectableOnDownPerpendicular(FilterOnListElements);
+                    else
+                        finalNav.selectOnDown = m_mySelectable.FindSelectableOnDown();
                     break;
             }
             FilterInactiveNavigations(ref finalNav);
@@ -52,7 +73,7 @@ namespace com.bricsys.tune.UI.Nav
             m_mySelectable.navigation = finalNav;
         }
 
-        private bool FilterOnListElements(Selectable a, Selectable b)
+        protected bool FilterOnListElements(Selectable a, Selectable b)
         {
             ListElement al = a.GetComponent<ListElement>();
             ListElement bl = b.GetComponent<ListElement>();

@@ -10,6 +10,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Canvas))]
 public class ToggleableWindow : MonoBehaviour
 {
+    static public Action<int> OnWindowToggled;
     [SerializeField] private Selectable m_firstSelected;
     public bool IsFocused { get { return CurrentWindow == this; } }
     protected Selectable[] Selectables { get { return GetComponentsInChildren<Selectable>(); } }
@@ -47,6 +48,8 @@ public class ToggleableWindow : MonoBehaviour
     {
         //Debug.Log("Toggled!");
         gameObject.SetActive(!gameObject.activeSelf);
+        if (OnWindowToggled != null)
+            OnWindowToggled(CurrentWindowsCount);
     }
 
     public bool ContainsSelectable(GameObject selectable)

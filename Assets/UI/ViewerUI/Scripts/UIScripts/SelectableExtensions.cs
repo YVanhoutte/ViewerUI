@@ -18,60 +18,7 @@ namespace UnityEngine.UI
             return dir;
         }
 
-        public static Selectable FindSelectablePerpendicular(this Selectable selectable, Vector3 direction, FilterDelegate filter)
-        {
-            direction = direction.normalized;
-            Vector3 localDir = selectable.transform.rotation * direction;
-            Vector3 pos = selectable.transform.TransformPoint(GetPointOnRectEdge(selectable.transform as RectTransform, localDir));
-
-            float maxScore = Mathf.Infinity;
-            float maxDistance = Mathf.Infinity;
-            Selectable bestPick = null;
-            Ray ray = new Ray(pos, Quaternion.AngleAxis(90, selectable.transform.forward) * localDir); //Rotate the localDir 90° around the selectable's forward axis, to get a direction along selectable.rect side
-
-            for (int i = 0; i < Selectable.allSelectables.Count; i++)
-            {
-                Selectable sel = Selectable.allSelectables[i];
-
-                if (sel == selectable || sel == null)
-                    continue;
-                if (!sel.IsInteractable() || sel.navigation.mode == Navigation.Mode.None)
-                    continue;
-                if (filter(selectable, sel) == false)
-                    continue;
-
-                var selRect = sel.transform as RectTransform;
-                Vector3 selCenter = selRect != null ? sel.transform.TransformPoint((Vector3)selRect.rect.center) : Vector3.zero;
-                Vector3 myVector = selCenter - pos;
-                // Value that is the distance out along the direction.
-                float dot = Vector3.Dot(localDir, myVector.normalized);
-                // Skip elements that are in the wrong direction or which have zero distance.
-                if (dot <= 0)
-                    continue;
-
-                float score = Vector3.Cross(ray.direction, selCenter - ray.origin).sqrMagnitude; //Returns the distance between the selected rect's center and a ray along the edge of selectable
-
-                if (score < maxScore)
-                {
-                    maxScore = score;
-                    maxDistance = myVector.sqrMagnitude;
-                    bestPick = sel;
-                }
-                else if (score == maxScore)
-                {
-                    if (maxDistance < myVector.sqrMagnitude)
-                        continue;
-                    else
-                    {
-                        maxScore = score;
-                        maxDistance = myVector.sqrMagnitude;
-                        bestPick = sel;
-                    }
-                }
-            }
-            return bestPick;
-        }
-
+        #region StandardSelection
         public static Selectable FindSelectable(this Selectable selectable, Vector3 direction, FilterDelegate filter)
         {
             direction = direction.normalized;
@@ -145,25 +92,89 @@ namespace UnityEngine.UI
         {
             return selectable.FindSelectable(Vector3.down, filter);
         }
+        #endregion
+        #region PerpendicularSelection
+        public static Selectable FindSelectablePerpendicular(this Selectable selectable, Vector3 direction, params FilterDelegate[] filters)
+        {
+            direction = direction.normalized;
+            Vector3 localDir = selectable.transform.rotation * direction;
+            Vector3 pos = selectable.transform.TransformPoint(GetPointOnRectEdge(selectable.transform as RectTransform, localDir));
 
-        static public Selectable FindSelectableOnLeftPerpendicular(this Selectable selectable, FilterDelegate filter)
+            float maxScore = Mathf.Infinity;
+            float maxDistance = Mathf.Infinity;
+            Selectable bestPick = null;
+            Ray ray = new Ray(pos, Quaternion.AngleAxis(90, selectable.transform.forward) * localDir); //Rotate the localDir 90° around the selectable's forward axis, to get a direction along selectable.rect side
+
+            for (int i = 0; i < Selectable.allSelectables.Count; i++)
+            {
+                Selectable sel = Selectable.allSelectables[i];
+
+                if (sel == selectable || sel == null)
+                    continue;
+                if (!sel.IsInteractable() || sel.navigation.mode == Navigation.Mode.None)
+                    continue;
+
+                bool resultfilter = true;
+                foreach(FilterDelegate filter in filters)
+                {
+                    resultfilter = filter(selectable, sel);
+                    if (resultfilter == false)
+                        break;
+                }
+                if (!resultfilter)
+                    continue;
+
+                var selRect = sel.transform as RectTransform;
+                Vector3 selCenter = selRect != null ? sel.transform.TransformPoint((Vector3)selRect.rect.center) : Vector3.zero;
+                Vector3 myVector = selCenter - pos;
+                // Value that is the distance out along the direction.
+                float dot = Vector3.Dot(localDir, myVector.normalized);
+                // Skip elements that are in the wrong direction or which have zero distance.
+                if (dot <= 0)
+                    continue;
+
+                float score = Vector3.Cross(ray.direction, selCenter - ray.origin).sqrMagnitude; //Returns the distance between the selected rect's center and a ray along the edge of selectable
+
+                if (score < maxScore)
+                {
+                    maxScore = score;
+                    maxDistance = myVector.sqrMagnitude;
+                    bestPick = sel;
+                }
+                else if (score == maxScore)
+                {
+                    if (maxDistance < myVector.sqrMagnitude)
+                        continue;
+                    else
+                    {
+                        maxScore = score;
+                        maxDistance = myVector.sqrMagnitude;
+                        bestPick = sel;
+                    }
+                }
+            }
+            return bestPick;
+        }
+
+        static public Selectable FindSelectableOnLeftPerpendicular(this Selectable selectable, params FilterDelegate[] filter)
         {
             return selectable.FindSelectablePerpendicular( Vector3.left, filter);
         }
 
-        static public Selectable FindSelectableOnRightPerpendicular(this Selectable selectable, FilterDelegate filter)
+        static public Selectable FindSelectableOnRightPerpendicular(this Selectable selectable, params FilterDelegate[] filter)
         {
             return selectable.FindSelectablePerpendicular( Vector3.right, filter);
         }
 
-        static public Selectable FindSelectableOnUpPerpendicular(this Selectable selectable, FilterDelegate filter)
+        static public Selectable FindSelectableOnUpPerpendicular(this Selectable selectable, params FilterDelegate[] filter)
         {
             return selectable.FindSelectablePerpendicular( Vector3.up, filter);
         }
 
-        static public Selectable FindSelectableOnDownPerpendicular(this Selectable selectable, FilterDelegate filter)
+        static public Selectable FindSelectableOnDownPerpendicular(this Selectable selectable, params FilterDelegate[] filters)
         {
-            return selectable.FindSelectablePerpendicular( Vector3.down, filter);
+            return selectable.FindSelectablePerpendicular( Vector3.down, filters);
         }
+        #endregion
     }
 }

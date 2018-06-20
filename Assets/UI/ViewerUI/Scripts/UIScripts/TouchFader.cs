@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TouchFader : MonoBehaviour
+[DisallowMultipleComponent]
+public sealed class TouchFader : MonoBehaviour
 {
     [SerializeField] private float m_delay = 2f, m_fadeInLength = 0.5f, m_fadeOutLength = 0.5f;
     private float m_timeLastTouch;

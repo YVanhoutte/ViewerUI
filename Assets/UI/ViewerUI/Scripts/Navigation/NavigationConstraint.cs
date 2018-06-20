@@ -5,22 +5,24 @@ using UnityEngine.UI;
 
 namespace com.bricsys.tune.UI.Nav
 {
+    [DisallowMultipleComponent]
     [RequireComponent(typeof(Selectable))]
     public abstract class NavigationConstraint : MonoBehaviour
     {
+        protected enum LimitedNavigation { None = 0, Horizontal = 1, Vertical = 2, All = 3 };
+
         protected Selectable m_mySelectable;
         protected Navigation m_sourceNavigation;
+        [SerializeField] protected LimitedNavigation m_navigationOverride;
         [SerializeField] private bool m_noLeftNavigation, m_noRightNavigation, m_noUpNavigation, m_noDownNavigation;
 
         protected abstract void OverrideNavigation();
 
-        protected virtual void Setup()
+        internal virtual void Setup()
         {
-            if (m_mySelectable == null)
-            {
-                m_mySelectable = GetComponent<Selectable>();
-                m_sourceNavigation = m_mySelectable.navigation;
-            }
+            m_sourceNavigation = m_mySelectable.navigation;
+            Debug.Log(string.Format("Calling Setup on: {0} source nav up: {1} down: {2} left: {3} right: {4}", 
+                name, m_sourceNavigation.selectOnUp, m_sourceNavigation.selectOnDown, m_sourceNavigation.selectOnLeft, m_sourceNavigation.selectOnRight));
         }
 
         protected void FilterInactiveNavigations(ref Navigation finalNav)
@@ -47,16 +49,16 @@ namespace com.bricsys.tune.UI.Nav
                 finalNav.selectOnRight = null;
         }
 
-        private void Start()
+        private void Awake()
         {
-            OverrideNavigation();
+            m_mySelectable = GetComponent<Selectable>();
         }
 
         private void OnEnable()
         {
             Setup();
             SelectableEvents.OnAllSelectablesChanged += OverrideNavigation;
-            OverrideNavigation();
+            //OverrideNavigation();
         }
 
         private void OnDisable()

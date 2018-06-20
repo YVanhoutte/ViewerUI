@@ -4,16 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Toggle), typeof(ListElement))]
+[RequireComponent(typeof(Toggle))]
 public class TreeTogglesController : MonoBehaviour
 {
     [SerializeField] private RectTransform m_content;
+    [SerializeField] private string m_listName;
     private Toggle m_myToggle;
-    private ListElement m_listElement;
 
     private void Awake()
     {
-        m_listElement = GetComponent<ListElement>();
         m_myToggle = GetComponent<Toggle>();
         m_myToggle.onValueChanged.AddListener(ToggleList);
     }
@@ -24,7 +23,7 @@ public class TreeTogglesController : MonoBehaviour
         List<Toggle> toggles = new List<Toggle>();
         for(int i = 0; i < listelements.Length; i++)
         {
-            if(listelements[i].ListName == m_listElement.ListName)
+            if(listelements[i].ListName == m_listName)
             {
                 Toggle toggle = listelements[i].GetComponent<Toggle>();
                 if (toggle != null && toggle.IsInteractable())

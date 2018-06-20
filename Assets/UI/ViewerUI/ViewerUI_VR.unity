@@ -530,7 +530,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 224829989}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fda80971b11be8143b2c508c78f90178, type: 3}
   m_Name: 
@@ -902,10 +902,8 @@ GameObject:
   - component: {fileID: 353334580}
   - component: {fileID: 353334579}
   - component: {fileID: 353334574}
-  - component: {fileID: 353334578}
   - component: {fileID: 353334573}
   - component: {fileID: 353334577}
-  - component: {fileID: 353334576}
   - component: {fileID: 353334575}
   m_Layer: 5
   m_Name: Btn_VisibilityAll
@@ -991,40 +989,21 @@ MonoBehaviour:
 --- !u!114 &353334575
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114665792247296894, guid: 6ef8161c56a8df74b828f8c20d0daa56,
-    type: 2}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 353334572}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 19567e9110fea0d4c8ac4f5560ba2065, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_IgnoreLayout: 0
-  m_MinWidth: 72
-  m_MinHeight: -1
-  m_PreferredWidth: 260
-  m_PreferredHeight: -1
-  m_FlexibleWidth: -1
-  m_FlexibleHeight: -1
-  m_LayoutPriority: 1
---- !u!114 &353334576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114657909774253774, guid: 6ef8161c56a8df74b828f8c20d0daa56,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 353334572}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31ab1f017e2321c46be771c455ea9092, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_navigationOverride: 2
   m_noLeftNavigation: 0
   m_noRightNavigation: 1
-  m_noUpNavigation: 0
+  m_noUpNavigation: 1
   m_noDownNavigation: 0
-  m_navigationOverride: 2
+  m_listName: VisibilityToggles
+  m_listContent: {fileID: 1195257974}
 --- !u!114 &353334577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1038,18 +1017,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_content: {fileID: 1195257974}
---- !u!114 &353334578
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114170769962713096, guid: 6ef8161c56a8df74b828f8c20d0daa56,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 353334572}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1139395bced5de548982fa59821b78e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   m_listName: VisibilityToggles
 --- !u!222 &353334579
 CanvasRenderer:
@@ -1642,10 +1609,10 @@ GameObject:
   m_Component:
   - component: {fileID: 759441781}
   - component: {fileID: 759441780}
-  - component: {fileID: 759441779}
   - component: {fileID: 759441782}
   - component: {fileID: 759441783}
   - component: {fileID: 759441784}
+  - component: {fileID: 759441779}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -1819,8 +1786,6 @@ GameObject:
   - component: {fileID: 888192928}
   - component: {fileID: 888192927}
   - component: {fileID: 888192933}
-  - component: {fileID: 888192932}
-  - component: {fileID: 888192931}
   - component: {fileID: 888192930}
   m_Layer: 5
   m_Name: Btn_ToggleAll
@@ -1926,53 +1891,21 @@ RectTransform:
 --- !u!114 &888192930
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114723548441491814, guid: 6ef8161c56a8df74b828f8c20d0daa56,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 888192926}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1679637790, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreLayout: 0
-  m_MinWidth: 72
-  m_MinHeight: -1
-  m_PreferredWidth: 260
-  m_PreferredHeight: -1
-  m_FlexibleWidth: -1
-  m_FlexibleHeight: -1
-  m_LayoutPriority: 1
---- !u!114 &888192931
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114513660353748154, guid: 6ef8161c56a8df74b828f8c20d0daa56,
-    type: 2}
+  m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 888192926}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31ab1f017e2321c46be771c455ea9092, type: 3}
+  m_Script: {fileID: 11500000, guid: 19567e9110fea0d4c8ac4f5560ba2065, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_navigationOverride: 2
   m_noLeftNavigation: 1
   m_noRightNavigation: 0
-  m_noUpNavigation: 0
+  m_noUpNavigation: 1
   m_noDownNavigation: 0
-  m_navigationOverride: 2
---- !u!114 &888192932
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 114187751984988510, guid: 6ef8161c56a8df74b828f8c20d0daa56,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 888192926}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1139395bced5de548982fa59821b78e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   m_listName: ExpandToggles
+  m_listContent: {fileID: 1195257974}
 --- !u!114 &888192933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1986,6 +1919,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_content: {fileID: 1195257974}
+  m_listName: ExpandToggles
 --- !u!222 &888192934
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2049,11 +1983,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31ab1f017e2321c46be771c455ea9092, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_navigationOverride: 2
   m_noLeftNavigation: 0
   m_noRightNavigation: 0
   m_noUpNavigation: 1
   m_noDownNavigation: 0
-  m_navigationOverride: 2
 --- !u!114 &991371845
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -13,7 +13,7 @@ namespace com.bricsys.tune.TreeNode
                 if (Rotation != null)
                     rot = (Quaternion)Rotation;
                 return transform.position + (rot * (Vector3.back * 5)); } }
-        public Quaternion? Rotation { get { return null; } }
+        public Quaternion? Rotation { get { return Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0); } }
         public IEnumerable<ITreeNode> Children { get { return m_children; } }
         public Visibility Visibility
         {
