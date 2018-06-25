@@ -21,8 +21,8 @@ namespace com.bricsys.tune.UI.Nav
         internal virtual void Setup()
         {
             m_sourceNavigation = m_mySelectable.navigation;
-            Debug.Log(string.Format("Calling Setup on: {0} source nav up: {1} down: {2} left: {3} right: {4}", 
-                name, m_sourceNavigation.selectOnUp, m_sourceNavigation.selectOnDown, m_sourceNavigation.selectOnLeft, m_sourceNavigation.selectOnRight));
+            //Debug.Log(string.Format("Calling Setup on: {0} source nav up: {1} down: {2} left: {3} right: {4}", 
+            //    name, m_sourceNavigation.selectOnUp, m_sourceNavigation.selectOnDown, m_sourceNavigation.selectOnLeft, m_sourceNavigation.selectOnRight));
         }
 
         protected void FilterInactiveNavigations(ref Navigation finalNav)
@@ -58,7 +58,6 @@ namespace com.bricsys.tune.UI.Nav
         {
             Setup();
             SelectableEvents.OnAllSelectablesChanged += OverrideNavigation;
-            //OverrideNavigation();
         }
 
         private void OnDisable()

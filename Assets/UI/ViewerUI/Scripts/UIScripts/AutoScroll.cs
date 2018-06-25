@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(ScrollRect))]
@@ -32,6 +28,8 @@ public class AutoScroll : MonoBehaviour
 
     private void UpdateScrollTo(GameObject selection)
     {
+        if (Input.mousePresent) //Don't do anything if a mouse is used!
+            return;
         //TODO: WORKS BUT IS A BIT UGLY
         if (selection == null || !selection.transform.IsChildOf(m_contentPanel.transform))
             return;

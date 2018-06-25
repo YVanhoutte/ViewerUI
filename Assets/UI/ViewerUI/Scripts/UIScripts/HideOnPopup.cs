@@ -10,11 +10,11 @@ public sealed class HideOnPopup : MonoBehaviour
         ToggleableWindow.OnWindowToggled += ShowOrHide;
 	}
 
-    private void ShowOrHide(int amountOfWindows)
+    private void ShowOrHide()
     {
-        if (amountOfWindows > 0 && gameObject.activeSelf)
+        if (ToggleableWindow.IsWindowUp && gameObject.activeSelf)
             gameObject.SetActive(false);
-        else if (amountOfWindows <= 0 && !gameObject.activeSelf)
+        else if (!ToggleableWindow.IsWindowUp && !gameObject.activeSelf)
             gameObject.SetActive(true);
     }
 }

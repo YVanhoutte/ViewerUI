@@ -18,8 +18,23 @@ public class MouseLook : MonoBehaviour
     private Quaternion originalRotation;
     private enum RotationAxes { MouseXAndY = 0, MouseX = 1, MouseY = 2 }
 
-    void Update()
+    private void Start()
     {
+        if (XRDevice.isPresent) //Kill this if user has a VR headset. This thing messes with rotations otherwise!
+            enabled = false;
+
+        Rigidbody rb = GetComponent<Rigidbody>();
+        // Make the rigid body not change rotation
+        if (rb != null)
+            rb.freezeRotation = true;
+        originalRotation = transform.localRotation;
+    }
+
+    private void Update()
+    {
+        if (ToggleableWindow.IsWindowUp)
+            return;
+
         if (axes == RotationAxes.MouseXAndY)
         {
             // Read the mouse input axis
@@ -45,18 +60,6 @@ public class MouseLook : MonoBehaviour
             Quaternion yQuaternion = Quaternion.AngleAxis(-rotationY, Vector3.right);
             transform.localRotation = originalRotation * yQuaternion;
         }
-    }
-
-    private void Start()
-    {
-        if (XRDevice.isPresent) //Kill this if user has a VR headset. This thing messes with rotations otherwise!
-            enabled = false;
-
-        Rigidbody rb = GetComponent<Rigidbody>();
-        // Make the rigid body not change rotation
-        if (rb != null)
-            rb.freezeRotation = true;
-        originalRotation = transform.localRotation;
     }
 
     public static float ClampAngle(float angle, float min, float max)

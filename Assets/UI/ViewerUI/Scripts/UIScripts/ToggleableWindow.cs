@@ -10,7 +10,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Canvas))]
 public class ToggleableWindow : MonoBehaviour
 {
-    static public Action<int> OnWindowToggled;
+    static public Action OnWindowToggled;
     [SerializeField] private Selectable m_firstSelected;
     public bool IsFocused { get { return CurrentWindow == this; } }
     protected Selectable[] Selectables { get { return GetComponentsInChildren<Selectable>(); } }
@@ -48,8 +48,13 @@ public class ToggleableWindow : MonoBehaviour
     {
         //Debug.Log("Toggled!");
         gameObject.SetActive(!gameObject.activeSelf);
+        var scrollRects = gameObject.GetComponentsInChildren<ScrollRect>();
+        foreach(ScrollRect scroll in scrollRects)
+        {
+            scroll.normalizedPosition = new Vector2(0, 1);
+        }
         if (OnWindowToggled != null)
-            OnWindowToggled(CurrentWindowsCount);
+            OnWindowToggled();
     }
 
     public bool ContainsSelectable(GameObject selectable)

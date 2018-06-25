@@ -55,7 +55,6 @@ namespace com.bricsys.tune.UI.Nav
                 if (element == null || element.ListName != m_listName)
                     temp.RemoveAt(i);
             }
-            Debug.Log("Elements in temp before filter: " + count + " after filter: " + temp.Count);
             return temp.ToArray();
         }
 
@@ -99,7 +98,6 @@ namespace com.bricsys.tune.UI.Nav
                 Selectable target = m_mySelectable.navigation.selectOnDown;
                 if (target != null)
                 {
-                    Debug.Log("Target for OverrideToMe Down: " + target);
                     Navigation nav = target.navigation;
                     nav.selectOnUp = m_mySelectable;
                     target.navigation = nav;

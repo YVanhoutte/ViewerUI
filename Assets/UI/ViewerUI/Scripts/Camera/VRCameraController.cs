@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR;
 
 public class VRCameraController : MonoBehaviour
 {
@@ -96,11 +95,19 @@ public class VRCameraController : MonoBehaviour
         m_cameraOffset = m_cameraTransform.localPosition;
 
         if (ToggleableWindow.CurrentWindowsCount > 0)
+        {
+            m_movementInputs.Clear();
+            m_movementInputs.Add(Vector3.zero);
+            m_rotationInputs.Clear();
+            m_rotationInputs.Add(Vector3.zero);
+            m_heightmovementInputs.Clear();
+            m_heightmovementInputs.Add(Vector3.zero);
             return;
+        }
 
-        Vector3 averageMovement = Average(m_movementInputs);
-        Vector3 averageRotation = Average(m_rotationInputs);
-        Vector3 averageHeightMovement = Average(m_heightmovementInputs);
+        Vector3 averageMovement = MathUtils.Average(m_movementInputs);
+        Vector3 averageRotation = MathUtils.Average(m_rotationInputs);
+        Vector3 averageHeightMovement = MathUtils.Average(m_heightmovementInputs);
 
         //Stokes' Drag, source: https://stackoverflow.com/questions/667034/simple-physics-based-movement?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
         m_movementVelocity += (m_movementAccelleration * averageMovement.magnitude) - (m_movementDrag * m_movementVelocity);
@@ -114,17 +121,6 @@ public class VRCameraController : MonoBehaviour
         m_rotationVelocity += (m_rotationAccelleration *averageRotation.magnitude) - (m_rotationDrag * m_rotationVelocity);
         m_rotationVelocity = Mathf.Clamp(m_rotationVelocity, 0, m_maxRotationSpeed);
         transform.RotateAround(m_cameraTransform.position, transform.up, m_rotationVelocity * averageRotation.y * Time.deltaTime); //Rotate around the camera's center instead of own center. Puke town avoided!
-
         //Debug.Log("Movement Speed: " + m_movementVelocity + " Rotation Speed: " + m_rotationVelocity);
-    }
-
-    private Vector3 Average(List<Vector3> vectors)
-    {
-        Vector3 result = Vector3.zero;
-        for(int i = 0; i < vectors.Count; i++)
-        {
-            result += vectors[i];
-        }
-        return result / vectors.Count;
     }
 }

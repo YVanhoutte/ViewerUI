@@ -1,88 +1,104 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 [DisallowMultipleComponent]
 public sealed class TouchFader : MonoBehaviour
 {
     [SerializeField] private float m_delay = 2f, m_fadeInLength = 0.5f, m_fadeOutLength = 0.5f;
+    [SerializeField] private bool m_requireClickOnRect = false;
     private float m_timeLastTouch;
-    private bool m_faded = true;
+    private bool m_faded = true, m_canFadeIn = true;
+    private CanvasGroup[] m_canvases;
+    private Coroutine m_coroutine;
 
-    private Coroutine m_fadeRoutine;
+    public void DelayFadeOut()
+    {
+        m_timeLastTouch = Time.timeSinceLevelLoad;
+    }
 
     private void Start ()
     {
-        var fadeObjects = FindObjectsOfType<CanvasGroup>();
-        for(int i = 0; i < fadeObjects.Length; i++)
+        m_canvases = GetComponentsInChildren<CanvasGroup>();
+        if(m_canvases.Length == 0)
         {
-            fadeObjects[i].alpha = 0;
-            fadeObjects[i].interactable = false;
-            fadeObjects[i].blocksRaycasts = false;
+            Debug.LogWarning(string.Format("{0} has a TouchFader component but no CanvasGroups in itself or its children to work on. Touchfader has been deactivated.", name));
+            enabled = false;
         }
+
+        for(int i = 0; i < m_canvases.Length; i++)
+        {
+            m_canvases[i].alpha = 0;
+            m_canvases[i].interactable = false;
+            m_canvases[i].blocksRaycasts = false;
+        }
+        ToggleableWindow.OnWindowToggled += DelayFadeOut;
 	}
 	
 	private void Update ()
     {
-        if (Input.GetMouseButton(0) && m_fadeRoutine == null)
+        bool pointerOnGO = false;
+#if UNITY_ANDROID || UNITY_IOS
+        pointerOnGO = EventSystem.current.IsPointerOverGameObject(0);
+#else
+        pointerOnGO = EventSystem.current.IsPointerOverGameObject();
+#endif
+        if (Input.GetMouseButtonDown(0) && m_canFadeIn && !pointerOnGO)
         {
-            m_fadeRoutine = StartCoroutine(FadeIn(FindObjectsOfType<CanvasGroup>()));
-            FindObjectsOfType<CanvasGroup>();
+            StopAllCoroutines();
+            StartCoroutine(FadeIn());
             m_timeLastTouch = Time.timeSinceLevelLoad;
             m_faded = false;
         }
-        else if (Input.GetMouseButton(0))
-        {
-            m_timeLastTouch = Time.timeSinceLevelLoad;
-        }
+        else if (Input.GetMouseButton(0) && !m_requireClickOnRect)
+            DelayFadeOut();
 
         if (Time.timeSinceLevelLoad > m_timeLastTouch + m_delay && !m_faded && !ToggleableWindow.IsWindowUp)
         {
-            m_fadeRoutine = StartCoroutine(FadeOut(FindObjectsOfType<CanvasGroup>()));
+            StartCoroutine(FadeOut());
             m_faded = true;
         }
 	}
 
-    private IEnumerator FadeIn(CanvasGroup[] canvases)
+    private IEnumerator FadeIn()
     {
-        for (int i = 0; i < canvases.Length; i++)
-        {
-            canvases[i].interactable = true;
-            canvases[i].blocksRaycasts = true;
-        }
-
+        m_canFadeIn = false;
+        ToggleCanvasPhysical(true);
         float startTime = Time.timeSinceLevelLoad;
-        float canvasValue = 0;
+        float canvasValue = m_canvases[0].alpha;
 
         while (canvasValue < 1)
         {
             canvasValue += Time.deltaTime / m_fadeInLength;
-            for(int i = 0; i < canvases.Length; i++)
-                canvases[i].alpha = canvasValue;
+            for(int i = 0; i < m_canvases.Length; i++)
+                m_canvases[i].alpha = canvasValue;
             yield return null;
         }
     }
 
-    private IEnumerator FadeOut(CanvasGroup[] canvases)
+    private IEnumerator FadeOut()
     {
+        m_canFadeIn = true;
+        ToggleCanvasPhysical(false);
         float startTime = Time.timeSinceLevelLoad;
-
-        float canvasValue = 1;
+        float canvasValue = m_canvases[0].alpha;
 
         while (canvasValue > 0)
         {
             canvasValue -= Time.deltaTime / m_fadeOutLength;
-            for (int i = 0; i < canvases.Length; i++)
-                canvases[i].alpha = canvasValue;
+            for(int i = 0; i < m_canvases.Length; i++)
+                m_canvases[i].alpha = canvasValue;
             yield return null;
         }
+    }
 
-        for (int i = 0; i < canvases.Length; i++)
+    private void ToggleCanvasPhysical(bool stateTo)
+    {
+        for (int i = 0; i < m_canvases.Length; i++)
         {
-            canvases[i].interactable = false;
-            canvases[i].blocksRaycasts = false;
+            m_canvases[i].interactable = stateTo;
+            m_canvases[i].blocksRaycasts = stateTo;
         }
-
-        m_fadeRoutine = null;
     }
 }
