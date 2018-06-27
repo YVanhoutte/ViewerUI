@@ -27,7 +27,7 @@ public class SelectableEvents : MonoBehaviour
             m_allSelectablesCount = Selectable.allSelectables.Count;
             if (OnAllSelectablesChanged != null)
             {
-                Canvas.ForceUpdateCanvases();
+                //Debug.Log("Amount of Objects to update: " + OnAllSelectablesChanged.GetInvocationList().Length);
                 OnAllSelectablesChanged();
             }
         }

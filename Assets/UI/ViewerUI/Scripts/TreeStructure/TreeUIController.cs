@@ -6,7 +6,7 @@ using com.bricsys.tune.TreeNode;
 
 public class TreeUIController : MonoBehaviour
 {
-    [SerializeField] private TreeNodeUI m_prefab;
+    [SerializeField] private ObjectPooler m_pool;
     [SerializeField] private Transform m_contentPanel;
 
     public void AddElement(TreeNodeUI data, TreeNodeUI parent)
@@ -30,7 +30,8 @@ public class TreeUIController : MonoBehaviour
     {
         if (root == null)
             return;
-        TreeNodeUI instance = Instantiate(m_prefab);
+        TreeNodeUI instance = m_pool.NextObject.GetComponent<TreeNodeUI>();
+        instance.gameObject.SetActive(true);
         instance.Set(root);
         AddElement(instance, parent);
         foreach(ITreeNode child in root.Children)

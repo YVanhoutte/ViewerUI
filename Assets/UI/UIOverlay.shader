@@ -1,4 +1,6 @@
-﻿Shader "UI/Overlay"
+﻿// Upgrade NOTE: upgraded instancing buffer 'Props' to new syntax.
+
+Shader "UI/Overlay"
 {
 	Properties
 	{
@@ -50,6 +52,7 @@
 			CGPROGRAM
 				#pragma vertex vert
 				#pragma fragment frag
+	            #pragma multi_compile_instancing
 				#include "UnityCG.cginc"
 				#include "UnityUI.cginc"
 
@@ -68,10 +71,17 @@
 				};
 	
 				sampler2D _MainTex;
-				float4 _MainTex_ST;
-				fixed4 _Color;
-				fixed4 _TextureSampleAdd;
+				//float4 _MainTex_ST;
+				//fixed4 _Color;
+				//fixed4 _TextureSampleAdd;
 				
+				UNITY_INSTANCING_BUFFER_START(Props)
+				UNITY_DEFINE_INSTANCED_PROP(fixed4, _Color)
+				UNITY_DEFINE_INSTANCED_PROP(float4, _TextureSampleAdd)
+//				UNITY_DEFINE_INSTANCED_PROP(float4, _MainTex)
+				UNITY_DEFINE_INSTANCED_PROP(float4, _MainTex_ST)
+				UNITY_INSTANCING_BUFFER_END(Props)
+
 				v2f vert (appdata_t v)
 				{
 					v2f o;

@@ -115,9 +115,9 @@ namespace UnityEngine.UI
                     continue;
 
                 bool resultfilter = true;
-                foreach(FilterDelegate filter in filters)
+                for(int j = 0; j < filters.Length; j++)
                 {
-                    resultfilter = filter(selectable, sel);
+                    resultfilter = filters[j](selectable, sel);
                     if (resultfilter == false)
                         break;
                 }
@@ -156,19 +156,19 @@ namespace UnityEngine.UI
             return bestPick;
         }
 
-        static public Selectable FindSelectableOnLeftPerpendicular(this Selectable selectable, params FilterDelegate[] filter)
+        static public Selectable FindSelectableOnLeftPerpendicular(this Selectable selectable, params FilterDelegate[] filters)
         {
-            return selectable.FindSelectablePerpendicular( Vector3.left, filter);
+            return selectable.FindSelectablePerpendicular( Vector3.left, filters);
         }
 
-        static public Selectable FindSelectableOnRightPerpendicular(this Selectable selectable, params FilterDelegate[] filter)
+        static public Selectable FindSelectableOnRightPerpendicular(this Selectable selectable, params FilterDelegate[] filters)
         {
-            return selectable.FindSelectablePerpendicular( Vector3.right, filter);
+            return selectable.FindSelectablePerpendicular( Vector3.right, filters);
         }
 
-        static public Selectable FindSelectableOnUpPerpendicular(this Selectable selectable, params FilterDelegate[] filter)
+        static public Selectable FindSelectableOnUpPerpendicular(this Selectable selectable, params FilterDelegate[] filters)
         {
-            return selectable.FindSelectablePerpendicular( Vector3.up, filter);
+            return selectable.FindSelectablePerpendicular( Vector3.up, filters);
         }
 
         static public Selectable FindSelectableOnDownPerpendicular(this Selectable selectable, params FilterDelegate[] filters)

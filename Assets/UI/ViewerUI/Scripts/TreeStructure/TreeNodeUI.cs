@@ -36,14 +36,7 @@ public class TreeNodeUI : MonoBehaviour
     {
         m_treeNode = treeNode;
         gameObject.name = "Tab_" + m_treeNode.Name;
-        int childrenCount = 0;
-        foreach(ITreeNode child in m_treeNode.Children)
-            childrenCount++;
-
-        if(childrenCount == 0)
-            m_visibilityButton.onClick.AddListener(() => ToggleVisibility());
-        else
-            m_visibilityButton.interactable = false;
+        m_visibilityButton.onClick.AddListener(() => ToggleVisibility());
         SetVisibilityText();
         m_name.text = treeNode.Name;
         m_nameButton.onClick.AddListener(() => Inspect(treeNode));
@@ -93,17 +86,9 @@ public class TreeNodeUI : MonoBehaviour
     private void ToggleExpandable()
     {
         if (m_subElements.Count == 0)
-        {
             m_expandToggle.gameObject.SetActive(false);
-            //m_expandToggle.interactable = false;
-            //m_expandToggle.GetComponent<CanvasGroup>().alpha = 0;
-        }
         else
-        {
             m_expandToggle.gameObject.SetActive(true);
-            //m_expandToggle.interactable = true;
-            //m_expandToggle.GetComponent<CanvasGroup>().alpha = 1;
-        }
     }
 
     private void ToggleExpansion(bool state)
@@ -113,12 +98,10 @@ public class TreeNodeUI : MonoBehaviour
 
     private void ToggleVisibility()
     {
-        Visibility newState = m_treeNode.Visibility;
-        if (newState == Visibility.Full)
-            newState = Visibility.None;
-        else if (newState == Visibility.None)
-            newState = Visibility.Full;
-        m_treeNode.Visibility = newState;
+        if (m_treeNode.Visibility != Visibility.None)
+            m_treeNode.Visibility = Visibility.None;
+        else
+            m_treeNode.Visibility = Visibility.Full;
 
         TreeNodeUI[] parents = GetComponentsInParent<TreeNodeUI>();
         for (int i = 0; i < parents.Length; i++) //TODO: Make this a little nicer?

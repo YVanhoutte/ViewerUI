@@ -44,7 +44,6 @@ GameObject:
   - component: {fileID: 114209004527748578}
   - component: {fileID: 114348872856722540}
   - component: {fileID: 225266691809796040}
-  - component: {fileID: 114279835288860214}
   m_Layer: 0
   m_Name: Tgl_Expand
   m_TagString: Untagged
@@ -102,7 +101,6 @@ GameObject:
   - component: {fileID: 114718870376629890}
   - component: {fileID: 114297855280561842}
   - component: {fileID: 114682749471629226}
-  - component: {fileID: 114492876046734042}
   m_Layer: 0
   m_Name: Btn_Visibility
   m_TagString: Untagged
@@ -120,8 +118,9 @@ GameObject:
   - component: {fileID: 224799862161041296}
   - component: {fileID: 114819549320345598}
   - component: {fileID: 114933452050541610}
+  - component: {fileID: 114349232185442430}
   m_Layer: 5
-  m_Name: Pre_OverviewTreeElement_Mobile
+  m_Name: Pre_OverviewTreeElement_MobileTest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -191,7 +190,6 @@ GameObject:
   - component: {fileID: 114267441686321956}
   - component: {fileID: 114131621861015802}
   - component: {fileID: 114604703764579650}
-  - component: {fileID: 114172637946038484}
   m_Layer: 0
   m_Name: Pnl_Name
   m_TagString: Untagged
@@ -298,22 +296,6 @@ MonoBehaviour:
   m_FlexibleWidth: 1
   m_FlexibleHeight: -1
   m_LayoutPriority: 2
---- !u!114 &114172637946038484
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1824187254236530}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89cdf7e642c95ec4ea9292b5c15f5a7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_navigationOverride: 2
-  m_noLeftNavigation: 0
-  m_noRightNavigation: 0
-  m_noUpNavigation: 0
-  m_noDownNavigation: 0
 --- !u!114 &114209004527748578
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -349,22 +331,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_listName: Names
---- !u!114 &114279835288860214
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1090570446050834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89cdf7e642c95ec4ea9292b5c15f5a7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_navigationOverride: 2
-  m_noLeftNavigation: 1
-  m_noRightNavigation: 0
-  m_noUpNavigation: 0
-  m_noDownNavigation: 0
 --- !u!114 &114284511327216318
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -401,6 +367,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcbc76b733b92bc42893920cca4a77f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114349232185442430
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1246445986930842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9b259e217ae9a74b998bb0506b3641b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_expandToggle: {fileID: 114735511017654430}
+  m_nameField: {fileID: 114131621861015802}
+  m_VisibleToggle: {fileID: 114718870376629890}
 --- !u!114 &114365506674690142
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -442,22 +422,6 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
   m_ChildControlHeight: 1
---- !u!114 &114492876046734042
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1179671342080604}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89cdf7e642c95ec4ea9292b5c15f5a7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_navigationOverride: 2
-  m_noLeftNavigation: 0
-  m_noRightNavigation: 1
-  m_noUpNavigation: 0
-  m_noDownNavigation: 0
 --- !u!114 &114572736985400140
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -72,17 +72,5 @@ namespace com.bricsys.tune.UI.Nav
             FilterCanceledNavigations(ref finalNav);
             m_mySelectable.navigation = finalNav;
         }
-
-        protected bool FilterOnListElements(Selectable a, Selectable b)
-        {
-            ListElement al = a.GetComponent<ListElement>();
-            ListElement bl = b.GetComponent<ListElement>();
-
-            if (al == null && bl == null)
-                return true;
-            if ((al == null && bl != null) || (al != null && bl == null))
-                return false;
-            return al.ListName.Equals(bl.ListName);
-        }
     }
 }
